@@ -35,7 +35,8 @@ return {
         "rust_analyzer",
         "gopls",
         "ts_ls",
-        "cssls"
+        "cssls",
+        "pyright"
       },
       handlers = {
         function(server_name) -- default handler (optional)
@@ -58,6 +59,13 @@ return {
           })
           vim.g.zig_fmt_parse_errors = 0
           vim.g.zig_fmt_autosave = 0
+        end,
+        ["pyright"] = function()
+          local lspconfig = require("lspconfig")
+          lspconfig.pyright.setup({
+            capabilities = capabilities,
+            filetypes = { "python" },
+          })
         end,
         ["lua_ls"] = function()
           local lspconfig = require("lspconfig")
@@ -84,14 +92,14 @@ return {
           require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
         end,
       },
-      mapping = cmp.mapping.preset.insert({
+      mapping = {
         ['<S-Tab>'] = cmp.mapping.select_prev_item(cmp_select),
         ['<Tab>'] = cmp.mapping.select_next_item(cmp_select),
         ['<CR>'] = cmp.mapping.confirm({
           behavior = cmp.ConfirmBehavior.Replace,
           select = true
         }),
-      }),
+      },
       window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
