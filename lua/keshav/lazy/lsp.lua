@@ -28,7 +28,11 @@ return {
       cmp_lsp.default_capabilities())
 
     require("fidget").setup({})
-    require("mason").setup()
+    require("mason").setup({
+      ensure_installed = {
+        "debugpy",
+      }
+    })
     require("mason-lspconfig").setup({
       ensure_installed = {
         "lua_ls",
@@ -36,8 +40,10 @@ return {
         "gopls",
         "ts_ls",
         "cssls",
-        "pyright"
+        "basedpyright",
+        "ruff"
       },
+      automatic_installation = true,
       handlers = {
         function(server_name) -- default handler (optional)
           require("lspconfig")[server_name].setup {
@@ -60,16 +66,30 @@ return {
           vim.g.zig_fmt_parse_errors = 0
           vim.g.zig_fmt_autosave = 0
         end,
-        ["pyright"] = function()
-          local lspconfig = require("lspconfig")
-          lspconfig.pyright.setup({
-            capabilities = capabilities,
-            filetypes = { "python" },
-          })
+        ["ruff"] = function()
+          require("lspconfig").ruff.setup {
+            init_options = {
+              settings = {
+                args = {},
+              }
+            },
+            commands = {
+              RuffAutofix = {
+                function()
+                  vim.lsp.buf.execute_command {
+                    command = 'ruff.applyAutofix',
+                    arguments = {
+                      { uri = vim.uri_from_bufnr(0) },
+                    },
+                  }
+                end,
+                description = 'Ruff: Fix all auto-fixable problems',
+              }
+            }
+          }
         end,
         ["lua_ls"] = function()
-          local lspconfig = require("lspconfig")
-          lspconfig.lua_ls.setup {
+          require("lspconfig").lua_ls.setup {
             capabilities = capabilities,
             settings = {
               Lua = {
@@ -80,7 +100,7 @@ return {
               }
             }
           }
-        end,
+        end
       }
     })
 

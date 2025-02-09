@@ -14,6 +14,8 @@ return {
         "go",
         "jsdoc",
         "bash",
+        "python",
+        "toml"
       },
 
       -- Install parsers synchronously (only applied to `ensure_installed`)
