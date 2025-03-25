@@ -88,6 +88,22 @@ return {
             }
           }
         end,
+        basedpyright = function()
+          require("lspconfig").basedpyright.setup {
+            settings = {
+              basedpyright = {
+                analysis = {
+                  diagnosticMode = "openFilesOnly",
+                  inlayHints = {
+                    callArgumentNames = true,
+                    variableTypes = true, -- reportMissingTypeStubs
+                    functionReturnTypes = true
+                  }
+                }
+              }
+            }
+          }
+        end,
         ["lua_ls"] = function()
           require("lspconfig").lua_ls.setup {
             capabilities = capabilities,
