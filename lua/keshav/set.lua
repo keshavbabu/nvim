@@ -29,3 +29,5 @@ vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
 vim.opt.clipboard = "unnamedplus"
+
+vim.opt.backspace = { 'indent', 'eol', 'start' }

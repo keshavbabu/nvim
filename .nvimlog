@@ -1,0 +1,6 @@
+WRN 2026-02-18T21:30:00.303 ?.73361    server_start:193: Failed to start server: operation not permitted: /tmp/nvim.keshavbabu/FZcjAZ/nvim.73361.0
+WRN 2026-02-18T21:30:03.523 ?.73375    server_start:193: Failed to start server: operation not permitted: /tmp/nvim.keshavbabu/20sqYi/nvim.73375.0
+WRN 2026-02-18T21:37:00.364 ?.74619    server_start:193: Failed to start server: operation not permitted: /var/folders/vl/2nkbk4kx01n8blxll1_1_xc00000gn/T/nvim.keshavbabu/BA0rH7/nvim.74619.0
+WRN 2026-02-19T08:34:53.459 ?.87504    server_start:193: Failed to start server: operation not permitted: /var/folders/vl/2nkbk4kx01n8blxll1_1_xc00000gn/T/nvim.keshavbabu/9vx1DI/nvim.87504.0
+WRN 2026-02-19T08:38:38.923 ?.88495    server_start:193: Failed to start server: operation not permitted: /var/folders/vl/2nkbk4kx01n8blxll1_1_xc00000gn/T/nvim.keshavbabu/TFPQqY/nvim.88495.0
+WRN 2026-02-19T08:38:38.923 ?.88494    server_start:193: Failed to start server: operation not permitted: /var/folders/vl/2nkbk4kx01n8blxll1_1_xc00000gn/T/nvim.keshavbabu/54f3Wd/nvim.88494.0
