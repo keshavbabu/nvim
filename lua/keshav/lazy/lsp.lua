@@ -51,6 +51,34 @@ return {
             capabilities = capabilities,
         })
 
+        vim.lsp.config("terraformls", {
+            cmd = { "terraform-ls", "serve" },
+            root_markers = { ".terraform", ".terraform.lock.hcl", "terragrunt.hcl" },
+            single_file_support = true,
+            capabilities = capabilities,
+        })
+
+        local rust_analyzer_cmd = vim.fn.exepath("rust-analyzer")
+        if rust_analyzer_cmd == "" then
+            rust_analyzer_cmd = vim.fn.stdpath("data") .. "/mason/bin/rust-analyzer"
+        end
+
+        vim.lsp.config("rust_analyzer", {
+            cmd = { rust_analyzer_cmd },
+            filetypes = { "rust" },
+            root_markers = { "Cargo.toml", "rust-project.json" },
+            settings = {
+                ["rust-analyzer"] = {
+                    cargo = {
+                        allFeatures = true,
+                    },
+                    checkOnSave = true,
+                },
+            },
+            capabilities = capabilities,
+        })
+        vim.lsp.enable("rust_analyzer")
+
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "lua_ls",
@@ -60,6 +88,7 @@ return {
                 "cssls",
                 "buf_ls",
                 "ruff",
+                "terraformls",
             },
             automatic_installation = true,
             handlers = {
@@ -85,6 +114,7 @@ return {
                 end,
                 ruff = function() end,
                 basedpyright = function() end,
+                rust_analyzer = function() end,
                 lua_ls = function()
                     enable_server("lua_ls", {
                         capabilities = capabilities,
