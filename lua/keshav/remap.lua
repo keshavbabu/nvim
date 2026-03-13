@@ -16,11 +16,13 @@ end
 local function copy_location(range)
     local file = relative_buf_path()
     local text
+    local selection = nil
 
     if range then
         -- Use live visual endpoints so this works in charwise/linewise/blockwise visual modes.
         local start_line = vim.fn.getpos("v")[2]
         local end_line = vim.fn.line(".")
+        selection = { start_line, end_line }
         if start_line > end_line then
             start_line, end_line = end_line, start_line
         end
@@ -35,6 +37,15 @@ local function copy_location(range)
 
     vim.fn.setreg('"', text)
     pcall(vim.fn.setreg, "+", text)
+
+    if selection then
+        vim.api.nvim_feedkeys(
+            vim.api.nvim_replace_termcodes("<Esc>", true, false, true),
+            "nx",
+            false
+        )
+    end
+
     vim.notify("Copied: " .. text)
 end
 

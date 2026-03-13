@@ -42,9 +42,9 @@ return {
         end
 
         vim.lsp.config("ty", {
-            cmd = { "ty", "server" },
+            cmd = { "uv", "run", "ty", "server" },
             filetypes = { "python" },
-            root_markers = { "ty.toml", "pyproject.toml", ".git" },
+            root_markers = { "ty.toml", "uv.lock" },
             settings = {
                 ty = {},
             },
@@ -53,10 +53,31 @@ return {
 
         vim.lsp.config("terraformls", {
             cmd = { "terraform-ls", "serve" },
+            filetypes = { "terraform", "terraform-vars", "hcl" },
             root_markers = { ".terraform", ".terraform.lock.hcl", "terragrunt.hcl" },
             single_file_support = true,
+            workspace_required = false,
+            capabilities = capabilities,
+            init_options = {
+              ignoreSingleFileWarning = true,
+            },
+        })
+
+        vim.lsp.config("buf_ls", {
+            cmd = { "/opt/homebrew/bin/buf", "lsp", "serve" },
+            filetypes = { "proto" },
+            root_markers = { "buf.work.yaml", "buf.yaml" },
             capabilities = capabilities,
         })
+        vim.lsp.enable("buf_ls")
+
+        vim.lsp.config("gopls", {
+            cmd = { "gopls" },
+            filetypes = { "go", "gomod", "gowork", "gotmpl" },
+            root_markers = { "go.work", "go.mod" },
+            capabilities = capabilities,
+        })
+        vim.lsp.enable("gopls")
 
         local rust_analyzer_cmd = vim.fn.exepath("rust-analyzer")
         if rust_analyzer_cmd == "" then
@@ -70,9 +91,13 @@ return {
             settings = {
                 ["rust-analyzer"] = {
                     cargo = {
-                        allFeatures = true,
+                        buildScripts = {
+                            enable = true,
+                        },
                     },
-                    checkOnSave = true,
+                    procMacro = {
+                        enable = true,
+                    },
                 },
             },
             capabilities = capabilities,
@@ -100,7 +125,7 @@ return {
                 zls = function()
                     enable_server("zls", {
                         capabilities = capabilities,
-                        root_markers = { ".git", "build.zig", "zls.json" },
+                        root_markers = { "build.zig", "zls.json" },
                         settings = {
                             zls = {
                                 enable_inlay_hints = true,
@@ -112,7 +137,16 @@ return {
                     vim.g.zig_fmt_parse_errors = 0
                     vim.g.zig_fmt_autosave = 0
                 end,
+                buf_ls = function()
+                    vim.lsp.enable("buf_ls")
+                end,
+                gopls = function()
+                    vim.lsp.enable("gopls")
+                end,
                 ruff = function() end,
+                terraformls = function()
+                    vim.lsp.enable("terraformls")
+                end,
                 basedpyright = function() end,
                 rust_analyzer = function() end,
                 lua_ls = function()

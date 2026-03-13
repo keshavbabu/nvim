@@ -1,3 +1,13 @@
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if not client then return end
+
+    -- Disable semantic tokens (they override Treesitter and can cause render churn)
+    client.server_capabilities.semanticTokensProvider = nil
+  end,
+})
+
 return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
